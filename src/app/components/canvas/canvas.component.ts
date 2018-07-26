@@ -12,7 +12,7 @@ export class CanvasComponent implements AfterContentInit {
   }
 
   ngAfterContentInit() {
-    console.log(this.canvas);
+    this.canvas.nativeElement.createContext();
   }
 
 }
