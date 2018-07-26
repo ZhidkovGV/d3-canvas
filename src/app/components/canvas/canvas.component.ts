@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterContentInit, Component, ElementRef, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.css']
 })
-export class CanvasComponent implements OnInit {
+export class CanvasComponent implements AfterContentInit {
+  @ViewChild('canvas') canvas: ElementRef;
 
-  constructor() { }
+  constructor() {
+  }
 
-  ngOnInit() {
+  ngAfterContentInit() {
+    console.log(this.canvas);
   }
 
 }
