@@ -1,4 +1,5 @@
 import {AfterContentInit, Component, ElementRef, ViewChild} from '@angular/core';
+import {GridDataService} from '../../services/grid-data.service';
 
 @Component({
   selector: 'app-canvas',
@@ -8,12 +9,13 @@ import {AfterContentInit, Component, ElementRef, ViewChild} from '@angular/core'
 export class CanvasComponent implements AfterContentInit {
   @ViewChild('canvas') canvas: ElementRef;
 
-  constructor() {
+  constructor(private gridData: GridDataService) {
   }
 
   ngAfterContentInit() {
     const context = this.canvas.nativeElement.getContext('2d');
-    console.log(context);
+    this.gridData.initPopulation();
+    this.gridData.render$.subscribe((grid) => console.log(grid));
   }
 
 }
