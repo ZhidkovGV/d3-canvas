@@ -12,7 +12,8 @@ export class CanvasComponent implements AfterContentInit {
   }
 
   ngAfterContentInit() {
-    this.canvas.nativeElement.createContext();
+    const context = this.canvas.nativeElement.getContext('2d');
+    console.log(context);
   }
 
 }
