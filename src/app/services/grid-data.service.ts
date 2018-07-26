@@ -20,7 +20,7 @@ export class GridDataService {
 
   initPopulation() {
     this.grid = Array.from({length: 10}, (() => {
-      return Array.from({length: 10}, () => Math.round(Math.random() * 0.7));
+      return Array.from({length: 10}, () => Math.round(Math.random() * 1.2));
     }));
   }
 
@@ -28,25 +28,34 @@ export class GridDataService {
     console.log(grid);
     return grid.map((column, xIndex) => {
       return column.map((element, yIndex) => {
-        let neighbours = -1;
         const columnsCount = column.length - 1;
-        for (let i = -1; i < 2; i++) {
-          for (let j = -1; j < 2; j++) {
-            if (this.grid[(xIndex + i + columnsCount) % columnsCount][(yIndex + j + columnsCount) % columnsCount] === 1) {
-              neighbours += 1;
-            }
-          }
-        }
-        if (neighbours < 2 || neighbours > 3) {
-          element = 0;
-          return element;
-        } else if (element === 0) {
-          element = 1;
-          return element;
-        } else {
-          return element;
-        }
+        const neighbours = this.countNeighbours(columnsCount, xIndex, yIndex);
+        return this.applyRules(element, neighbours);
       });
     });
+  }
+
+  countNeighbours(columnsCount: number, xIndex: number, yIndex: number) {
+    let neighbours = -1;
+    for (let i = -1; i < 2; i++) {
+      for (let j = -1; j < 2; j++) {
+        if (this.grid[(xIndex + i + columnsCount) % columnsCount][(yIndex + j + columnsCount) % columnsCount] === 1) {
+          neighbours += 1;
+        }
+      }
+    }
+    return neighbours;
+  }
+
+  applyRules(valueToChange: number, neighbours: number) {
+    if (neighbours < 2 || neighbours > 3) {
+      valueToChange = 0;
+      return valueToChange;
+    } else if (valueToChange === 0) {
+      valueToChange = 1;
+      return valueToChange;
+    } else {
+      return valueToChange;
+    }
   }
 }
