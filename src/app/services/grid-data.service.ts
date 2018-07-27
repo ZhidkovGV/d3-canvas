@@ -8,7 +8,7 @@ import {switchMap} from 'rxjs/operators';
 })
 export class GridDataService {
   grid: number[][];
-  render$: Observable<number[][]> = interval(100).pipe(
+  render$: Observable<number[][]> = interval(17).pipe(
     switchMap(() => {
       this.grid = this.newGeneration(this.grid);
       return of(this.grid);
@@ -19,13 +19,12 @@ export class GridDataService {
   }
 
   initPopulation() {
-    this.grid = Array.from({length: 10}, (() => {
-      return Array.from({length: 10}, () => Math.round(Math.random() * 1.2));
+    this.grid = Array.from({length: 30}, (() => {
+      return Array.from({length: 30}, () => Math.round(Math.random() * 1.2));
     }));
   }
 
   newGeneration(grid: number[][]) {
-    console.log(grid);
     return grid.map((column, xIndex) => {
       return column.map((element, yIndex) => {
         const columnsCount = column.length - 1;

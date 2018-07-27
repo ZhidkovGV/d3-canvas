@@ -9,10 +9,10 @@ export class ScalesService {
   constructor() {
   }
 
-  getScales(dataExample: any[]) {
+  getScales(data: any[]) {
     return {
-      x: scaleLinear().domain([0, max(dataExample, (d) => d[0])]).range([0, 100]),
-      y: scaleLinear().domain([0, max(dataExample, (d) => d[0])]).range([0, 100])
+      x: scaleLinear().domain([0, max(data, (d) => d[0])]).range([0, 100]),
+      y: scaleLinear().domain([0, max(data, (d) => d[0])]).range([0, 100])
     };
   }
 }
