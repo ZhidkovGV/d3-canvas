@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, interval, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
-import {SIZE_OF_GRID} from '../SETTINGS';
+import {SIZE_OF_GRID, TIME_BEFORE_NEW_GENERATION} from '../game-config';
 
 
 @Injectable({
@@ -9,7 +9,7 @@ import {SIZE_OF_GRID} from '../SETTINGS';
 })
 export class GridDataService {
   grid: number[][];
-  render$: Observable<number[][]> = interval(100).pipe(
+  render$: Observable<number[][]> = interval(TIME_BEFORE_NEW_GENERATION).pipe(
     switchMap(() => {
       this.grid = this.newGeneration(this.grid);
       return of(this.grid);
