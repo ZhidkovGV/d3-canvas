@@ -1,5 +1,6 @@
 import {AfterContentInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {GridDataService} from '../../services/grid-data.service';
+import {SIZE_OF_CELL} from '../../game-config';
 
 @Component({
   selector: 'app-canvas',
@@ -27,7 +28,7 @@ export class CanvasComponent implements AfterContentInit {
   drawField(context: any, fieldState: number, x: number, y: number) {
     context.beginPath();
     context.fillStyle = fieldState === 1 ? 'white' : 'black';
-    context.rect(5 * x, 5 * y, 5, 5);
+    context.rect(SIZE_OF_CELL * x, SIZE_OF_CELL * y, SIZE_OF_CELL, SIZE_OF_CELL);
     context.fill();
   }
 }

@@ -1,7 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Observable, interval, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
-import {SIZE_OF_GRID, TIME_BEFORE_NEW_GENERATION} from '../game-config';
+import {
+  LAST_LEFT_NEIGHBOUR, LAST_RIGHT_NEIGHBOUR, MAX_NEIGHBOURS, MIN_NEIGHBOURS, SIZE_OF_GRID,
+  TIME_BEFORE_NEW_GENERATION
+} from '../game-config';
 
 
 @Injectable({
@@ -37,8 +40,8 @@ export class GridDataService {
 
   countNeighbours(columnsCount: number, xIndex: number, yIndex: number) {
     let neighbours = -1;
-    for (let i = -1; i < 2; i++) {
-      for (let j = -1; j < 2; j++) {
+    for (let i = LAST_LEFT_NEIGHBOUR; i < LAST_RIGHT_NEIGHBOUR; i++) {
+      for (let j = LAST_LEFT_NEIGHBOUR; j < LAST_RIGHT_NEIGHBOUR; j++) {
         if (this.grid[(xIndex + i + columnsCount) % columnsCount][(yIndex + j + columnsCount) % columnsCount] === 1) {
           neighbours += 1;
         }
@@ -48,7 +51,7 @@ export class GridDataService {
   }
 
   applyRules(valueToChange: number, neighbours: number) {
-    if (neighbours < 2 || neighbours > 3) {
+    if (neighbours < MIN_NEIGHBOURS || neighbours > MAX_NEIGHBOURS) {
       valueToChange = 0;
       return valueToChange;
     } else if (valueToChange === 0) {
