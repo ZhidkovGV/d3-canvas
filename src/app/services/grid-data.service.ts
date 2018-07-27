@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, interval, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
+import {SIZE_OF_GRID} from '../SETTINGS';
 
 
 @Injectable({
@@ -8,7 +9,7 @@ import {switchMap} from 'rxjs/operators';
 })
 export class GridDataService {
   grid: number[][];
-  render$: Observable<number[][]> = interval(17).pipe(
+  render$: Observable<number[][]> = interval(100).pipe(
     switchMap(() => {
       this.grid = this.newGeneration(this.grid);
       return of(this.grid);
@@ -19,8 +20,8 @@ export class GridDataService {
   }
 
   initPopulation() {
-    this.grid = Array.from({length: 30}, (() => {
-      return Array.from({length: 30}, () => Math.round(Math.random() * 1.2));
+    this.grid = Array.from({length: SIZE_OF_GRID}, (() => {
+      return Array.from({length: SIZE_OF_GRID}, () => Math.round(Math.random() * 1.2));
     }));
   }
 

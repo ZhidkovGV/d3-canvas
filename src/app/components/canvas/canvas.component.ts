@@ -13,7 +13,7 @@ export class CanvasComponent implements AfterContentInit {
   }
 
   ngAfterContentInit() {
-    const context = this.canvas.nativeElement.getContext('2d');
+    const context = this.canvas.nativeElement.getContext('2d', {alpha: false});
     this.gridData.initPopulation();
     this.gridData.render$.subscribe((grid) => {
       grid.forEach((row, xIndex) => {
