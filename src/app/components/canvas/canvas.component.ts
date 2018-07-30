@@ -14,8 +14,9 @@ export class CanvasComponent implements AfterContentInit {
   }
 
   ngAfterContentInit() {
-    const context = this.canvas.nativeElement.getContext('2d', {alpha: false});
+    const context = this.canvas.nativeElement.getContext('2d');
     this.gridData.initPopulation();
+    this.fixCanvasDpi();
     this.gridData.render$.subscribe((grid) => {
       grid.forEach((row, xIndex) => {
         row.forEach((element, yIndex) => {
@@ -27,8 +28,17 @@ export class CanvasComponent implements AfterContentInit {
 
   drawField(context: any, fieldState: number, x: number, y: number) {
     context.beginPath();
-    context.fillStyle = fieldState === 1 ? 'white' : 'black';
+    context.fillStyle = fieldState > 0 ? 'white' : 'black';
     context.rect(SIZE_OF_CELL * x, SIZE_OF_CELL * y, SIZE_OF_CELL, SIZE_OF_CELL);
     context.fill();
   }
+
+  fixCanvasDpi() {
+    const windowDPI = window.devicePixelRatio;
+    const styleHeight = parseFloat(getComputedStyle(this.canvas.nativeElement).height);
+    const styleWidth = parseFloat(getComputedStyle(this.canvas.nativeElement).width);
+    this.canvas.nativeElement.setAttribute('height', windowDPI * styleHeight);
+    this.canvas.nativeElement.setAttribute('width', windowDPI * styleWidth);
+  }
+
 }
