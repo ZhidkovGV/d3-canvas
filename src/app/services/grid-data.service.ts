@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 import {Observable, interval, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import {
-  CHANCE_TO_FILL_ON_INIT,
+  ALIVE_CELL,
+  CHANCE_TO_FILL_ON_INIT, DEAD_CELL,
   LAST_LEFT_NEIGHBOUR, LAST_RIGHT_NEIGHBOUR, MAX_NEIGHBOURS, MIN_NEIGHBOURS, SIZE_OF_GRID,
   TIME_BEFORE_NEW_GENERATION
 } from '../game-config';
@@ -17,15 +18,15 @@ export class GridDataService {
     switchMap(() => {
       this.grid = this.newGeneration(this.grid);
       return of(this.grid);
-    }))
-  ;
+    })
+  );
 
   constructor() {
   }
 
   initPopulation() {
     this.grid = Array.from({length: SIZE_OF_GRID}, (() => {
-      return Array.from({length: SIZE_OF_GRID}, () => Math.round(Math.random() * (0.5 + (CHANCE_TO_FILL_ON_INIT / 100))));
+      return Array.from({length: SIZE_OF_GRID}, () => Math.round(Math.random() * (CHANCE_TO_FILL_ON_INIT / 100)));
     }));
   }
 
@@ -50,15 +51,13 @@ export class GridDataService {
     return neighbours;
   }
 
-  applyRules(valueToChange: number, neighbours: number) {
+  applyRules(cell: number, neighbours: number) {
     if (neighbours < MIN_NEIGHBOURS || neighbours > MAX_NEIGHBOURS) {
-      valueToChange = 0;
-      return valueToChange;
-    } else if (valueToChange === 0) {
-      valueToChange = 1;
-      return valueToChange;
+      return DEAD_CELL;
+    } else if (cell === DEAD_CELL) {
+      return ALIVE_CELL;
     } else {
-      return valueToChange;
+      return cell;
     }
   }
 }
